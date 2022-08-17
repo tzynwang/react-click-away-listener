@@ -1,31 +1,33 @@
-import React, { memo } from 'react'
-import classNames from 'classnames'
-
-import Styles from './index.module.css'
+import React, { memo, useState } from 'react';
+import cn from 'classnames';
+import ClickAwayListener from '@Components/Layer/ClickAwayListener';
+import scopedStyle from './index.module.css';
 
 function App(): React.ReactElement {
+  /* States */
+  const [open, setOpen] = useState<boolean>(false);
+
+  /* Function */
+  const toggleBox = (): void => {
+    setOpen(!open);
+  };
+  const closeBox = (): void => {
+    setOpen(false);
+  };
+
+  /* Main */
   return (
-    <main className={classNames(Styles.main)}>
-      <div>
-        Hello world, this React APP is created by{' '}
-        <code className={classNames(Styles.mainCode)}>npx create-react-app with template --choffee</code>.
-      </div>
-      <div>
-        Author: Charlie (Tzu Yin) |{' '}
-        <a href="https://github.com/tzynwang" target="_blank" className={Styles.mainAnchor}>
-          GitHub
-        </a>{' '}
-        |{' '}
-        <a href="https://tzynwang.github.io/" target="_blank" className={Styles.mainAnchor}>
-          Blog
-        </a>{' '}
-        |{' '}
-        <a href="https://www.npmjs.com/~tzyn.wang" target="_blank" className={Styles.mainAnchor}>
-          npm Packages
-        </a>
-      </div>
-    </main>
-  )
+    <div className={cn(scopedStyle.mainApp)}>
+      <ClickAwayListener onClickAway={closeBox}>
+        <div className={cn(scopedStyle.menuWrapper)}>
+          <button onClick={toggleBox}>click me</button>
+          {open && (
+            <div className={cn(scopedStyle.menu)}>a box attach to button</div>
+          )}
+        </div>
+      </ClickAwayListener>
+    </div>
+  );
 }
 
-export default memo(App)
+export default memo(App);
