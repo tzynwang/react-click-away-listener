@@ -30,7 +30,10 @@ function App(): React.ReactElement {
             {modelOpen && (
               <React.Fragment>
                 <div className={cn(scopedStyle.modelBackground)} />
-                <ClickAwayListener onClickAway={() => setModelOpen(false)}>
+                <ClickAwayListener
+                  onClickAway={() => setModelOpen(false)}
+                  keydownTrigger
+                >
                   <div className={cn(scopedStyle.portalModel)}>
                     a box render by Portal in ClickAwayListener
                   </div>
