@@ -7,7 +7,7 @@ function ClickAwayListener(props: ClickAwayListenerProps): React.ReactElement {
     children,
     onClickAway,
     keydownTrigger = false,
-    key = 'Escape',
+    awayKey = 'Escape',
   } = props;
   const childrenRef = useRef<HTMLElement | null>(null);
 
@@ -19,7 +19,7 @@ function ClickAwayListener(props: ClickAwayListenerProps): React.ReactElement {
     }
   };
   const checkKey = (e: KeyboardEvent): void => {
-    if (e.key === key) {
+    if (e.key === awayKey) {
       onClickAway();
     }
   };
