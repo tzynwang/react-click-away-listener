@@ -3,13 +3,23 @@ import type { ClickAwayListenerProps } from './types';
 
 function ClickAwayListener(props: ClickAwayListenerProps): React.ReactElement {
   /* States */
-  const { children, onClickAway } = props;
+  const {
+    children,
+    onClickAway,
+    keydownTrigger = false,
+    key = 'Escape',
+  } = props;
   const childrenRef = useRef<HTMLElement | null>(null);
 
   /* Functions */
   const checkClickTarget = (e: MouseEvent): void => {
     const target = e.target as Node;
     if (!childrenRef.current?.contains(target)) {
+      onClickAway();
+    }
+  };
+  const checkKey = (e: KeyboardEvent): void => {
+    if (e.key === key) {
       onClickAway();
     }
   };
@@ -21,6 +31,14 @@ function ClickAwayListener(props: ClickAwayListenerProps): React.ReactElement {
       document.removeEventListener('click', checkClickTarget);
     };
   }, []);
+  useEffect(() => {
+    if (keydownTrigger) {
+      document.addEventListener('keydown', checkKey);
+      return () => {
+        document.removeEventListener('keydown', checkKey);
+      };
+    }
+  }, [keydownTrigger]);
 
   /* Main */
   return React.cloneElement(children, { ref: childrenRef });
